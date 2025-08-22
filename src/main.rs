@@ -1,19 +1,29 @@
-use clap::Parser;
+use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(version, about , long_about=None)]
-struct Args {
-    #[arg(short, long)]
-    name: String,
+#[command(name = "keyzen", version, about = "Typing test in CLI")]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
 
-    #[arg(short, long, default_value_t = 1)]
-    count: u32,
+#[derive(Subcommand, Debug)]
+enum Commands {
+    Start {
+        #[arg(short, long, default_value_t = 60)]
+        duration: u32,
+
+        #[arg(short, long, default_value = "rust")]
+        lang: String,
+    },
 }
 
 fn main() {
-    let arg = Args::parse();
+    let cli = Cli::parse();
 
-    for _ in 0..arg.count {
-        println!("Hello {}", arg.name);
+    match &cli.command {
+        Commands::Start { duration, lang } => {
+            println!("Starting typing test for {duration} sec in {lang}");
+        }
     }
 }
