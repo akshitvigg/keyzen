@@ -2,9 +2,11 @@ use clap::{Parser, Subcommand};
 
 mod game;
 mod lang;
+mod tui;
 
 use crate::game::get_random_words;
 use crate::lang::get_words;
+use crate::tui::run_typing_test;
 
 #[derive(Parser, Debug)]
 #[command(name = "keyzen", version, about = "Typing test in CLI")]
@@ -34,7 +36,7 @@ fn main() {
             let words = get_words(lang);
             let random_words = get_random_words(&words, 10);
 
-            println!("Words to type : {:?}", random_words);
+            run_typing_test(random_words, *duration).unwrap();
         }
     }
 }
