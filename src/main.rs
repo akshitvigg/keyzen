@@ -1,5 +1,11 @@
 use clap::{Parser, Subcommand};
 
+mod game;
+mod lang;
+
+use crate::game::get_random_words;
+use crate::lang::get_words;
+
 #[derive(Parser, Debug)]
 #[command(name = "keyzen", version, about = "Typing test in CLI")]
 struct Cli {
@@ -24,6 +30,11 @@ fn main() {
     match &cli.command {
         Commands::Start { duration, lang } => {
             println!("Starting typing test for {duration} sec in {lang}");
+
+            let words = get_words(lang);
+            let random_words = get_random_words(&words, 10);
+
+            println!("Words to type : {:?}", random_words);
         }
     }
 }
