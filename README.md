@@ -2,6 +2,10 @@
 
 A beautiful and fast typing test that runs in your terminal. Test your typing speed with programming languages, English words, or custom text.
 
+<div align="center">
+<img src="assets/demo.gif" />
+</div>
+
 ## Features
 
 - 🚀 **Fast & Beautiful**: Clean TUI with real-time stats
