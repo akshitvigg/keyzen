@@ -51,7 +51,7 @@ fn center_text(text: &str, width: u16) -> u16 {
     if text_len >= width {
         return 0;
     }
-    (width - text_len) / 2
+    width.saturating_sub(text_len) / 2
 }
 
 fn format_time(seconds: u64) -> String {
@@ -124,8 +124,8 @@ pub fn run_typing_test(words: Vec<String>, duration: u32, lang: &str) -> std::io
     let mut typed = String::new();
     let test_duration = Duration::from_secs(duration as u64);
     let mut start_time: Option<Instant> = None;
-    let mut correct_chars = 0;
-    let mut total_typed_chars = 0;
+    let mut correct_chars: usize = 0;
+    let mut total_typed_chars: usize = 0;
     let mut current_line_set = 0;
     
     
@@ -171,7 +171,8 @@ pub fn run_typing_test(words: Vec<String>, duration: u32, lang: &str) -> std::io
             duration as u64
         };
         
-        draw_header_stats(&mut stdout, terminal_width, center_y - 4, secs_left, 
+        let header_y = if center_y >= 4 { center_y - 4 } else { 0 };
+        draw_header_stats(&mut stdout, terminal_width, header_y, secs_left, 
                          current_wpm, current_accuracy, start_time)?;
 
         let start_line = current_line_set * visible_lines;
@@ -186,7 +187,7 @@ pub fn run_typing_test(words: Vec<String>, duration: u32, lang: &str) -> std::io
         let caret_pos = typed.chars().count();
 
         for (line_idx, line) in current_visible_lines.iter().enumerate() {
-            let line_y = center_y - 1 + line_idx as u16;
+            let line_y = if center_y >= 1 { center_y - 1 } else { 0 } + line_idx as u16;
             let line_x = center_text(line, terminal_width);
             stdout.execute(cursor::MoveTo(line_x, line_y))?;
 
@@ -232,7 +233,8 @@ pub fn run_typing_test(words: Vec<String>, duration: u32, lang: &str) -> std::io
             "esc: quit • backspace: delete"
         };
         let inst_x = center_text(instructions, terminal_width);
-        stdout.execute(cursor::MoveTo(inst_x, center_y + 4))?;
+        let inst_y = center_y.saturating_add(4);
+        stdout.execute(cursor::MoveTo(inst_x, inst_y))?;
         stdout.execute(SetForegroundColor(Color::DarkGrey))?;
         stdout.execute(Print(instructions))?;
         stdout.execute(ResetColor)?;
@@ -267,7 +269,7 @@ pub fn run_typing_test(words: Vec<String>, duration: u32, lang: &str) -> std::io
                                     total_typed_chars -= 1;
                                     if let Some(expected) = target_text.chars().nth(typed.len()) {
                                         if removed_char == expected && correct_chars > 0 {
-                                            correct_chars -= 1;
+                                            correct_chars = correct_chars.saturating_sub(1);
                                         }
                                     }
                                 }
