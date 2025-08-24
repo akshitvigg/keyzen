@@ -1,6 +1,6 @@
 [package]
 name = "keyzen"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Akshit Vig <akshitvig48@gmail.com>"]
 description = "A terminal-based typing test game written in Rust."
