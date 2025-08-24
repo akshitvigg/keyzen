@@ -14,13 +14,15 @@ A beautiful and fast typing test that runs in your terminal. Test your typing sp
 ## Installation
 
 ### Quick Install
+
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/akshitvigg/keyzen
 cd keyzen
 ./install.sh
 ```
 
 ### Manual Install
+
 ```bash
 # Build the project
 cargo build --release
@@ -78,12 +80,14 @@ Run `keyzen start --list-langs` to see all available languages. Includes:
 ## Controls
 
 ### During Test
+
 - **Type normally** to progress through words
 - **Backspace** to correct mistakes
 - **Tab** to restart the test
 - **Esc** to quit
 
 ### Results Screen
+
 - **Tab** to restart
 - **Esc** to quit
 
@@ -92,7 +96,7 @@ Run `keyzen start --list-langs` to see all available languages. Includes:
 Results are color-coded based on performance:
 
 - 🟢 **Green**: Excellent (60+ WPM, 95%+ accuracy)
-- 🔵 **Cyan**: Good (40-59 WPM, 80-94% accuracy)  
+- 🔵 **Cyan**: Good (40-59 WPM, 80-94% accuracy)
 - 🟡 **Yellow**: Fair (20-39 WPM, <80% accuracy)
 - 🔴 **Red**: Needs improvement (<20 WPM, <80% accuracy)
 

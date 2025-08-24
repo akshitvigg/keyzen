@@ -2,7 +2,6 @@ use serde_json::Value;
 use std::fs;
 use std::env;
 
-// Embed all language files into the binary
 const LANGUAGE_FILES: &[(&str, &str)] = &[
     ("bash", include_str!("../languages/bash.json")),
     ("c", include_str!("../languages/c.json")),
@@ -43,7 +42,7 @@ const LANGUAGE_FILES: &[(&str, &str)] = &[
 ];
 
 pub fn get_words(lang: &str) -> Vec<String> {
-    // First try to get from embedded files
+    
     if let Some(content) = get_embedded_language_content(lang) {
         match serde_json::from_str::<Value>(content) {
             Ok(json) => {
@@ -62,7 +61,7 @@ pub fn get_words(lang: &str) -> Vec<String> {
         }
     }
 
-    // Fallback to file system (for development or custom languages)
+    
     let possible_paths = get_language_file_paths(lang);
 
     let filename = possible_paths
@@ -155,12 +154,12 @@ fn get_language_directory_paths() -> Vec<String> {
 pub fn get_available_languages() -> Vec<String> {
     let mut languages = Vec::new();
     
-    // Add embedded languages
+    
     for (name, _) in LANGUAGE_FILES {
         languages.push(name.to_string());
     }
     
-    // Also check file system for additional languages (for development or custom languages)
+    
     let possible_dirs = get_language_directory_paths();
     
     for dir in possible_dirs {
