@@ -41,6 +41,39 @@ ln -sf "$(pwd)/target/release/keyzen" ~/.local/bin/keyzen
 # Add ~/.local/bin to your PATH if not already there
 ```
 
+### Nix
+
+Try out Keyzen with:
+
+```bash
+nix run github:akshitvigg/keyzen
+```
+
+Or, install the package by adding this repo's flake to your inputs:
+
+```nix
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
+    keyzen = {
+      url = "github:akshitvigg/keyzen";
+    };
+  };
+```
+
+and including its default package in your `home.packages` in the case of
+Home Manager, or your `environment.systemPackages` in the case of NixOS. For
+example, with NixOS, it might look like:
+
+```nix
+{ pkgs, inputs, ... }:
+{
+  environment.systemPackages = [
+    inputs.keyzen.packages.${pkgs.system}.default
+  ];
+}
+```
+
 ## Usage
 
 ### Basic Commands
